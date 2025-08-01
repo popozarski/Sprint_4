@@ -10,11 +10,11 @@ public class MainPage {
 
     //-----------------------------------------------------------------------
     //Кнопка заказать верхняя
-    private By orderButtonTop = By.xpath("//*[@id=\"root\"]/div/div/div[1]/div[2]/button[1]");
+    private By orderButtonTop = By.xpath(".//button[@class='Button_Button__ra12g']");
 
 
     //Кнопка заказать в середине страницы
-    private By orderButtonMid = By.xpath("//*[@id=\"root\"]/div/div/div[4]/div[2]/div[5]/button");
+    private By orderButtonMid = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
 
     //Кнопка принять куки
     private By rccConfirmButton = By.xpath(".//button[@id='rcc-confirm-button']");
@@ -22,19 +22,11 @@ public class MainPage {
     // общий xPath к кнопке аккордиона
     private String pathAccardionButtonGeneric = ".//div[@id='accordion__heading-%d']";
 
-    //общий xPath к тексту аккордиона
-    private String pathAccardionTextGeneric = "//div[@id='accordion__panel-%d']";
+    //общий xPath к тексту ответа аккордиона
+    private String pathAnswerAccardionTextGeneric = "//div[@id='accordion__panel-%d']";
+    //общий xPath к тексту вопроса аккордиона
+    private String pathQuestionAccardionTextGeneric = "//div[@id='accordion__heading-%d']";
 
-    //Тексты к аккордионам согласно требованиям
-    public String [] accordionExpectedTexts = {
-                                "Сутки — 400 рублей. Оплата курьеру — наличными или картой.",
-                                "Пока что у нас так: один заказ — один самокат. Если хотите покататься с друзьями, можете просто сделать несколько заказов — один за другим.",
-                                "Допустим, вы оформляете заказ на 8 мая. Мы привозим самокат 8 мая в течение дня. Отсчёт времени аренды начинается с момента, когда вы оплатите заказ курьеру. Если мы привезли самокат 8 мая в 20:30, суточная аренда закончится 9 мая в 20:30.",
-                                "Только начиная с завтрашнего дня. Но скоро станем расторопнее.",
-                                "Пока что нет! Но если что-то срочное — всегда можно позвонить в поддержку по красивому номеру 1010.",
-                                "Самокат приезжает к вам с полной зарядкой. Этого хватает на восемь суток — даже если будете кататься без передышек и во сне. Зарядка не понадобится.",
-                                "Да, пока самокат не привезли. Штрафа не будет, объяснительной записки тоже не попросим. Все же свои.",
-                                "Да, обязательно. Всем самокатов! И Москве, и Московской области."};
 
     //---------------------------------------------------------------------
     //Конструктор класса page object MainPage
@@ -56,10 +48,16 @@ public class MainPage {
         driver.findElement(orderButtonMid).click();
     }
 
-    // Нажать на кнопку заказа на главной странице
-    public void clickOrderButton(By orderButton){
-        driver.findElement(orderButton).click();
+    // Нажать на кнопку одну из кнопок заказа на главной странице
+    public void clickOrderButton(String orderButton){
+        if (orderButton == "orderButtonTop"){
+            driver.findElement(orderButtonTop).click();
+        }
+        else {
+            driver.findElement(orderButtonMid).click();
+        }
     }
+
     // Нажать на кнопку принять куки
     public void clickRccConfirmButton(){
         driver.findElement(rccConfirmButton).click();
@@ -76,13 +74,21 @@ public class MainPage {
 
     }
 
-
-    // Скопировать текст аккордиона согласно номеру по порядку, начиная c 0
-    public String copyAccordionText(int accordionNum){
-        String accordionTextPath = String.format(pathAccardionTextGeneric, accordionNum);
+    // Скопировать текст вопроса аккордиона согласно номеру по порядку, начиная c 0
+    public String copyQuestionAccordionText(int accordionNum){
+        String accordionTextPath = String.format(pathQuestionAccardionTextGeneric, accordionNum);
         return driver.findElement(By.xpath(accordionTextPath)).getText();
 
     }
+    // Скопировать текст ответа аккордиона согласно номеру по порядку, начиная c 0
+    public String copyAnswerAccordionText(int accordionNum){
+        String accordionTextPath = String.format(pathAnswerAccardionTextGeneric, accordionNum);
+        return driver.findElement(By.xpath(accordionTextPath)).getText();
+
+    }
+
+
+
 
 
 }

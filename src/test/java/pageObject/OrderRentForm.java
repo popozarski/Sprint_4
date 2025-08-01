@@ -4,42 +4,42 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class OrderRentForm {
-   private WebDriver driver;
+ private WebDriver driver;
 
 
 
-   //Поле ввода когда привезти самокат
-    private By datePickerContainer = By.xpath(".//input[@placeholder='* Когда привезти самокат']");
+ //Поле ввода когда привезти самокат
+ private By datePickerContainer = By.xpath(".//input[@placeholder='* Когда привезти самокат']");
 
-    //  общий путь к выбору даты, когда приввезти самокат
-    private String datePickerCalendarGenericPath = ".//div[text()='%d']";
+ //  общий путь к выбору даты, когда приввезти самокат
+ private String datePickerCalendarGenericPath = ".//div[text()='%d']";
 
-    //общий xpath к выбору количетсва суток
-    private String rentalDurationGenericPath = ".//div[text()='%s']";
+ //общий xpath к выбору количетсва суток
+ private String rentalDurationGenericPath = ".//div[text()='%s']";
 
-    //Поле ввода Срок аренды
-    private By rentalDurationContainer = By.className("Dropdown-placeholder");
+ //Поле ввода Срок аренды
+ private By rentalDurationContainer = By.className("Dropdown-placeholder");
 
 
 
-    //Чекбоксы Цвет самоката
-    private By checkBoxBlack = By.xpath("//*[@id=\"black\"]");
-    private By checkBoxGrey = By.xpath("//*[@id=\"grey\"]");
+ //Чекбоксы Цвет самоката
+ private By checkBoxBlack = By.xpath("//*[@id=\"black\"]");
+ private By checkBoxGrey = By.xpath("//*[@id=\"grey\"]");
 
-    //Кнопка Заказать
-    private By buttonOrder = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
-    //--------------------------------------------------------------------
-    // Конструктор класса
+ //Кнопка Заказать
+ private By buttonOrder = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM']");
+ //--------------------------------------------------------------------
+ // Конструктор класса
  public OrderRentForm(WebDriver driver){
   this.driver = driver;
  }
 
-// выбрать день месяца когда привезти самокат
+ // выбрать день месяца когда привезти самокат
  public void  inputDayOfMonth(int day){
   driver.findElement(datePickerContainer).click();
   driver.findElement(By.xpath(String.format(datePickerCalendarGenericPath, day))).click();
  }
-//вводим количество суток в строку срок аренды
+ //вводим количество суток в строку срок аренды
  public void inputRentalDuration(String days){
 
   driver.findElement(rentalDurationContainer).click();

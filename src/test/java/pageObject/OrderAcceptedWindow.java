@@ -22,7 +22,7 @@ public class OrderAcceptedWindow {
     }
     public String copyHeadlineText(){
         //new WebDriverWait(driver,Duration.ofSeconds(3))
-              // .until(ExpectedConditions.visibilityOfElementLocated(acceptedOrderPopupWindow));
+        // .until(ExpectedConditions.visibilityOfElementLocated(acceptedOrderPopupWindow));
         // Заголовок окна оформленного заказа
         String headline = driver.findElement(acceptedOrderText).getText().split("\n", 2)[0];
         return headline;

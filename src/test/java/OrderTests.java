@@ -9,12 +9,16 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import java.util.concurrent.TimeUnit;
 import static junit.framework.Assert.assertEquals;
+
+
 @RunWith(Parameterized.class)
 public class OrderTests {
     private WebDriver driver;
     private final ClientData clientData;
     private final RentData rentData;
+    private final String orderButton;
 
+    
 
     // Классы для хранения тестовых данных
     public static class ClientData {
@@ -50,22 +54,25 @@ public class OrderTests {
         }
     }
 
-    public OrderTests(ClientData clientData, RentData rentData) {
+    public OrderTests(String orderButton, ClientData clientData, RentData rentData) {
         this.clientData = clientData;
-        this.rentData = rentData;}
+        this.rentData = rentData;
+        this.orderButton = orderButton;
+    }
 
     @Parameterized.Parameters
     public static Object[][] getOrderInfo(){
         return new Object[][] {
-                {new ClientData("Михаил", "Зубенко",
-                        "г. Москва, Земляной Вал 31, квартира 12",
-                        "Курская", "88005553535"),
-                new RentData(25, "сутки", 0, "")},
+                {"orderButtonTop",
+                        new ClientData("Михаил", "Зубенко",
+                                "г. Москва, Земляной Вал 31, квартира 12",
+                                "Курская", "88005553535"),
+                        new RentData(25, "сутки", 0, "")},
 
-                {new ClientData("Катя", "Кошечкина",
+                {"orderButtonMid", new ClientData("Катя", "Кошечкина",
                         "г. Москва, ул Плещеева 12 квартира 120",
                         "Бибирево",  "79001236677"),
-                new RentData(14, "трое суток", 1, "WP")}
+                        new RentData(14, "трое суток", 1, "WP")}
         };
     }
 
@@ -82,25 +89,32 @@ public class OrderTests {
         driver.manage().timeouts().implicitlyWait(3, TimeUnit.SECONDS);
 
         // переход на тестируемую страницу
-        driver.get("https://qa-scooter.praktikum-services.ru/order");
+        driver.get("https://qa-scooter.praktikum-services.ru");
+        //Принимаем условия использования куки
+        new OrderInfoForm(driver).clickRccConfirmButton();
+
 
 
     }
 
     @Test
     public void testPositiveFlow(){
+
+        // Нажать на кнопку "Заказать" на главной странице
+        new MainPage(driver).clickOrderButton(orderButton);
+
         // Заполнение формы "Для кого самокат"
         OrderInfoForm infoForm = new OrderInfoForm(driver);
-        infoForm.clickRccConfirmButton();
+
         infoForm.fillInfoForm(clientData.name, clientData.surname,
-                              clientData.address, clientData.metroStation,
-                              clientData.phoneNumber);
+                clientData.address, clientData.metroStation,
+                clientData.phoneNumber);
         infoForm.clickButtonNext();
 
         // Заполнение формы "Про аренду"
         OrderRentForm rentForm = new OrderRentForm(driver);
         rentForm.fillRentForm(rentData.deliveryDay, rentData.rentalPeriod,
-                              rentData.colorCode, rentData.comment);
+                rentData.colorCode, rentData.comment);
         rentForm.clickOrderButton();
 
         //Подтверждение заказа

@@ -9,7 +9,7 @@ public class OrderInfoForm {
 
     //поле Имя
     private By inputNameContainer = By.xpath(".//input[@placeholder='* Имя']");
-    
+
     //поле Фамилия
     private By inputSurnameContainer = By.xpath(".//input[@placeholder='* Фамилия']");
 
@@ -56,7 +56,7 @@ public class OrderInfoForm {
 
         driver.findElement(inputMetroStationContainer).sendKeys(metroStation);
 
-        driver.findElement(By.xpath(".//div[text()='" + metroStation + "']")).click();
+        driver.findElement(By.xpath(String.format(".//div[text()='%s']", metroStation))).click();
 
     }
 
@@ -98,6 +98,9 @@ public class OrderInfoForm {
 
 
 }
+
+
+
 
 
 
